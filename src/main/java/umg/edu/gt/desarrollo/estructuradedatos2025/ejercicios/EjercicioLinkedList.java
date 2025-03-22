@@ -1,16 +1,60 @@
 package umg.edu.gt.desarrollo.estructuradedatos2025.ejercicios;
 
+
+import java.util.*;
+
 public class EjercicioLinkedList {
-	
-	/** INSTRUCCIONES
- 	Escriba el algoritmo que resuelve el problema en esta clase.
-	Debe crear un package llamado umg.edu.gt.test.EjercicioLinkedList que corresponda al Test de esta clase.
-	Genere un Test por cada ejemplo y fuerce que uno de esos Test falle, puede implementar retornar un resultado
-	y compararlo con el esperado.
-	 */
-	
-	// Usando LinkedList de Java Collections, resuelva los siguientes problemas
-	// Problema 1: Dada una LinkedList<Integer>, escribir un método que elimine los valores duplicados, dejando solo la primera aparición de cada número.
-	// Problema 2: Implementar un método que invierta los elementos de una LinkedList<String> sin usar otra lista o ArrayList.
-	// Problema 3: Dadas dos listas enlazadas ordenadas de enteros, escribir un método que devuelva una nueva LinkedList<Integer> con los elementos de ambas listas intercalados en orden.
+    
+
+    public static void eliminarDuplicados(LinkedList<Integer> lista) {
+        Set<Integer> seen = new HashSet<>();
+        Iterator<Integer> iterator = lista.iterator();
+        while (iterator.hasNext()) {
+            Integer num = iterator.next();
+            if (!seen.add(num)) {
+                iterator.remove();
+            }
+        }
+    }
+
+ 
+    public static void invertirLista(LinkedList<String> lista) {
+        int n = lista.size();
+        for (int i = 0; i < n / 2; i++) {
+            String temp = lista.get(i);
+            lista.set(i, lista.get(n - i - 1));
+            lista.set(n - i - 1, temp);
+        }
+    }
+    
+ 
+    public static LinkedList<Integer> intercalarListas(LinkedList<Integer> lista1, LinkedList<Integer> lista2) {
+        LinkedList<Integer> resultado = new LinkedList<>();
+        Iterator<Integer> it1 = lista1.iterator();
+        Iterator<Integer> it2 = lista2.iterator();
+        
+        Integer num1 = it1.hasNext() ? it1.next() : null;
+        Integer num2 = it2.hasNext() ? it2.next() : null;
+        
+        while (num1 != null || num2 != null) {
+            if (num1 == null) {
+                resultado.add(num2);
+                num2 = it2.hasNext() ? it2.next() : null;
+            } else if (num2 == null) {
+                resultado.add(num1);
+                num1 = it1.hasNext() ? it1.next() : null;
+            } else if (num1 <= num2) {
+                resultado.add(num1);
+                num1 = it1.hasNext() ? it1.next() : null;
+            } else {
+                resultado.add(num2);
+                num2 = it2.hasNext() ? it2.next() : null;
+            }
+        }
+        
+        return resultado;
+    }
+
+
+    
 }
