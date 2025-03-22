@@ -1,77 +1,123 @@
 package umg.edu.gt.desarrollo.estructuradedatos2025.ejercicios;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 public class EjercicioArrays {
-	
-	/** INSTRUCCIONES
-	 	Escriba el algoritmo que resuelve el problema en esta clase.
-		Debe crear un package llamado umg.edu.gt.test.ClaseArrays que corresponda al Test de esta clase.
-		Genere un Test por cada ejemplo y fuerce que uno de esos Test falle, puede implementar retornar un resultado
-		y compararlo con el esperado.
-	 */
-	
-	/* EJERCICIO 1:
-	Se le da una cuadrícula de enteros m x n cuentas donde cuentas[i][j] es la cantidad de dinero que el i-ésimo cliente tiene en el j-ésimo banco. Devuelve la riqueza que tiene el cliente más rico.
-	La riqueza de un cliente es la cantidad de dinero que tiene en todas sus cuentas bancarias. El cliente más rico es el que tiene el máximo patrimonio. 
-
-	Ejemplo 1:
-	Entrada: cuentas = [[1,2,3],[3,2,1]]
-	Salida: 6
-	Explicación:
-	1er cliente tiene riqueza = 1 + 2 + 3 = 6
-	El 2º cliente tiene riqueza = 3 + 2 + 1 = 6
-	Ambos clientes se consideran los más ricos con una riqueza de 6 cada uno, por lo que devuelve 6.
-	Ejemplo 2:
-	Entrada: cuentas = [[1,5],[7,3],[3,5]]
-	Salida: 10
-	Explicación: 
-	1er cliente tiene riqueza = 6
-	El 2º cliente tiene un patrimonio = 10 
-	El 3er cliente tiene una riqueza = 8
-	El 2º cliente es el más rico con una riqueza de 10.
-	Ejemplo 3
-	Entrada: cuentas = [[2,8,7],[7,1,3],[1,9,5]]
-	Salida: 17
-	Restricciones:
-	m == cuentas.longitud
-	n == cuentas[i].longitud
-	1 <= m, n <= 50
-	1 <= cuentas[i][j] <= 100	
-	*/
-	
-	/* Ejercicio 2
-	Una diagonal de matriz es una línea diagonal de celdas que comienza en alguna celda de la fila superior o de la columna más a la izquierda y continúa en dirección inferior derecha hasta llegar al final de la matriz. 
-	Por ejemplo, la diagonal de matriz que comienza en mat[2][0], donde mates una 6 x 3matriz, incluye las celdas mat[2][0], mat[3][1]y mat[4][2].
-	Dada una m x nmatriz matde números enteros, ordena cada diagonal de la matriz en orden ascendente y devuelve la matriz resultante .
-	Ejemplo 1:
-	Entrada: mat = [[3,3,1,1],[2,2,1,2],[1,1,1,2]]
-	Salida: [[1,1,1,1],[1,2,2,2],[1,2,3,3]]
-	Ejemplo 2:
-	Entrada: mat = [[11,25,66,1,69,7],[23,55,17,45,15,52],[75,31,36,44,58,8],[22,27,33,25,68,4],[84,28,14,11,5,50]]
-	Salida : [[5,17,4,1,52,7],[11,11,25,45,8,69],[14,23,25,44,58,15],[22,27,31,36,50,66],[84,28,75,33,55,68]]
-	Restricciones:	
-		m == mat.length
-		n == mat[i].length
-		1 <= m, n <= 100
-		1 <= mat[i][j] <= 100 	 
-	 */
-	
-	/* Ejercicio 3
-	Dada una matriz m x n de números enteros, calcula la suma de todos los elementos de la matriz.
-
-	Ejemplo 1
-	Entrada: mat = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
-	Salida: 45
-	Explicación:
-	1 + 2 + 3 + 4 + 5 + 6 + 7 + 8 + 9 = 45	
-	Ejemplo 2
-	Entrada: mat = [[10, 20], [30, 40]]
-	Salida: 100
-	Explicación:
-	10 + 20 + 30 + 40 = 100
-
-	Restricciones
-	1 <= m, n <= 100
-	1 <= mat[i][j] <= 1000
-	 */
-
+ private static final Logger logger = LogManager.getLogger(EjercicioArrays.class);
+ public class Ejercicio1 {
+        private static final Logger logger = LogManager.getLogger(Ejercicio1.class);
+        
+        public static int maxWealth(int[][] accounts) {
+            logger.info("Iniciando cálculo de riqueza máxima");
+            int maxWealth = 0;
+            
+            for (int i = 0; i < accounts.length; i++) {
+                int wealth = 0;
+                
+                for (int j = 0; j < accounts[i].length; j++) {
+                    wealth += accounts[i][j];
+                }
+                
+                if (wealth > maxWealth) {
+                    maxWealth = wealth;
+                }
+            }
+            
+            logger.info("La riqueza máxima calculada es: {}", maxWealth);
+            return maxWealth;
+        }
+    }
+    
+    public class Ejercicio2 {
+        private static final Logger logger = LogManager.getLogger(Ejercicio2.class);
+        
+        public static int[][] diagonalSort(int[][] mat) {
+            logger.info("Iniciando ordenamiento diagonal de matriz");
+            int m = mat.length;
+            int n = mat[0].length;
+            
+            for (int col = 0; col < n; col++) {
+                sortDiagonal(mat, 0, col, m, n);
+            }
+            
+            for (int row = 1; row < m; row++) {
+                sortDiagonal(mat, row, 0, m, n);
+            }
+            
+            logger.info("Ordenamiento diagonal completado");
+            return mat;
+        }
+        
+        private static void sortDiagonal(int[][] mat, int row, int col, int m, int n) {
+            ArrayList<Integer> diagonal = new ArrayList<>();
+           
+            int r = row, c = col;
+            while (r < m && c < n) {
+                diagonal.add(mat[r][c]);
+                r++;
+                c++;
+            }
+            
+            Collections.sort(diagonal);
+            
+            r = row;
+            c = col;
+            int index = 0;
+            while (r < m && c < n) {
+                mat[r][c] = diagonal.get(index++);
+                r++;
+                c++;
+            }
+        }
+        
+        private static void printMatrix(int[][] mat) {
+            logger.info("Matriz resultante:");
+            for (int[] row : mat) {
+                StringBuilder rowStr = new StringBuilder();
+                for (int num : row) {
+                    rowStr.append(num).append(" ");
+                }
+                logger.info(rowStr.toString());
+            }
+        }
+    }
+    
+    public class Ejercicio3 {
+        // Logger específico para Ejercicio3
+        private static final Logger logger = LogManager.getLogger(Ejercicio3.class);
+        
+        public static int matrixSum(int[][] mat) {
+            int sum = 0;
+            for (int i = 0; i < mat.length; i++) {
+                for (int j = 0; j < mat[i].length; j++) {
+                    sum += mat[i][j];
+                }
+            }
+            
+            return sum;
+        }
+        
+        public static void main(String[] args) {
+            int[][] mat1 = {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}};
+            int[][] mat2 = {{10, 20}, {30, 40}};
+            
+            int sum1 = matrixSum(mat1);
+            logger.info("La suma de la matriz 1 es: {}", sum1);
+            
+            int sum2 = matrixSum(mat2);
+            logger.info("La suma de la matriz 2 es: {}", sum2);
+            
+            // Ejemplo de log de error
+            try {
+                // Simulación de error
+                int[][] matrizNull = null;
+                matrixSum(matrizNull);
+            } catch (Exception e) {
+                logger.error("Ocurrió un error inesperado", e);
+            }
+        }
+    } 
 }
