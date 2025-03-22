@@ -22,7 +22,7 @@ La clase `EjercicioLinkedList` incluye métodos estáticos que permiten realizar
 
 ```java
 public static void eliminarDuplicados(LinkedList<Integer> lista)
-
+```
 
 ## Descripción de las Pruebas
 
